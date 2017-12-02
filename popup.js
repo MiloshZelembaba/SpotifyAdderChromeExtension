@@ -64,6 +64,21 @@ function changeBackgroundColor(color) {
   });
 }
 
+
+function getVideoName() {
+  var script = "var title = document.getElementsByClassName('title style-scope ytd-video-primary-info-renderer')[0].textContent;"
+  script += "document.write(title);"
+
+  // See https://developer.chrome.com/extensions/tabs#method-executeScript.
+  // chrome.tabs.executeScript allows us to programmatically inject JavaScript
+  // into a page. Since we omit the optional first argument "tabId", the script
+  // is inserted into the active tab of the current window, which serves as the
+  // default.
+  chrome.tabs.executeScript({
+    code: script
+  });
+}
+
 /**
  * Gets the saved background color for url.
  *
@@ -106,6 +121,7 @@ function saveBackgroundColor(url, color) {
 document.addEventListener('DOMContentLoaded', () => {
   getCurrentTabUrl((url) => {
     var dropdown = document.getElementById('dropdown');
+    getVideoName()
 
     // Load the saved background color for this page and modify the dropdown
     // value, if needed.
